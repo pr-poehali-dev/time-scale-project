@@ -3,7 +3,7 @@ import { TimelineHeader } from "./TimelineHeader";
 import { TimelineControls } from "./TimelineControls";
 import { TimelineCanvas } from "./TimelineCanvas";
 import { ObjectPanel } from "./ObjectPanel";
-import { TimelineObject } from "../types/timeline";
+import { TimelineObject, TimelineFilters } from "../types/timeline";
 
 export interface TimelineAppProps {}
 
@@ -13,6 +13,10 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
   const [selectedObject, setSelectedObject] = useState<string | null>(null);
   const [timeRange, setTimeRange] = useState({ start: 8, end: 20 });
   const [zoom, setZoom] = useState(1);
+  const [filters, setFilters] = useState<TimelineFilters>({
+    showPassengers: true,
+    showVehicles: true,
+  });
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleCreateObject = useCallback(
@@ -50,12 +54,20 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <TimelineHeader
+        activeMode={activeMode}
+        filters={filters}
+        onModeChange={setActiveMode}
+        onFiltersChange={setFilters}
+      />
+
       <TimelineCanvas
         objects={objects}
         selectedObject={selectedObject}
         timeRange={timeRange}
         zoom={zoom}
         mode={activeMode}
+        filters={filters}
         onSelectObject={setSelectedObject}
         onUpdateObject={handleUpdateObject}
       />
