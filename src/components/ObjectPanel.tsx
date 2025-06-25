@@ -6,7 +6,7 @@ interface ObjectPanelProps {
   mode: TimelineMode;
   selectedObject: string | null;
   objects: TimelineObject[];
-  onCreateObject: (type: "event" | "process", name: string) => void;
+  onCreateObject: (type: "passenger" | "vehicle", name: string) => void;
   onUpdateObject: (id: string, updates: Partial<TimelineObject>) => void;
   onDeleteObject: (id: string) => void;
 }
@@ -22,7 +22,7 @@ export const ObjectPanel: React.FC<ObjectPanelProps> = ({
   const [newObjectName, setNewObjectName] = useState("");
   const selectedObj = objects.find((obj) => obj.id === selectedObject);
 
-  const handleCreate = (type: "event" | "process") => {
+  const handleCreate = (type: "passenger" | "vehicle") => {
     if (newObjectName.trim()) {
       onCreateObject(type, newObjectName.trim());
       setNewObjectName("");
@@ -42,35 +42,30 @@ export const ObjectPanel: React.FC<ObjectPanelProps> = ({
         <div>
           <input
             type="text"
-            placeholder={
-              mode === "schedule" ? "Название события" : "Название процесса"
-            }
+            placeholder="Название объекта"
             value={newObjectName}
             onChange={(e) => setNewObjectName(e.target.value)}
             className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-            onKeyPress={(e) =>
-              e.key === "Enter" &&
-              handleCreate(mode === "schedule" ? "event" : "process")
-            }
+            onKeyPress={(e) => e.key === "Enter" && handleCreate("passenger")}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-2">
           <button
-            onClick={() => handleCreate("event")}
-            disabled={!newObjectName.trim()}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-          >
-            <Icon name="Calendar" size={16} />
-            {mode === "schedule" ? "Событие" : "Точка данных"}
-          </button>
-          <button
-            onClick={() => handleCreate("process")}
+            onClick={() => handleCreate("passenger")}
             disabled={!newObjectName.trim()}
             className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
-            <Icon name="BarChart3" size={16} />
-            {mode === "schedule" ? "Период" : "Процесс"}
+            <Icon name="User" size={16} />
+            Пассажир
+          </button>
+          <button
+            onClick={() => handleCreate("vehicle")}
+            disabled={!newObjectName.trim()}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          >
+            <Icon name="Car" size={16} />
+            Машина
           </button>
         </div>
       </div>
