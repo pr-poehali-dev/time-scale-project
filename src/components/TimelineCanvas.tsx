@@ -156,7 +156,7 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
           className="absolute left-0 right-0 h-0.5 bg-red-500 z-20 shadow-lg"
           style={{ top: `${timeToY(new Date().getHours())}px` }}
         >
-          <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
+          <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-6 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
             СЕЙЧАС
           </div>
         </div>
