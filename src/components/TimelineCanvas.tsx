@@ -1,10 +1,5 @@
 import React, { forwardRef, useCallback, useRef, useState } from "react";
-import {
-  TimelineObject,
-  TimeRange,
-  TimelineMode,
-  TimelineFilters,
-} from "../types/timeline";
+import { TimelineObject, TimeRange, TimelineMode } from "../types/timeline";
 import Icon from "@/components/ui/icon";
 
 interface TimelineCanvasProps {
@@ -13,7 +8,6 @@ interface TimelineCanvasProps {
   timeRange: TimeRange;
   zoom: number;
   mode: TimelineMode;
-  filters: TimelineFilters;
   onSelectObject: (id: string | null) => void;
   onUpdateObject: (id: string, updates: Partial<TimelineObject>) => void;
 }
@@ -26,7 +20,6 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
       timeRange,
       zoom,
       mode,
-      filters,
       onSelectObject,
       onUpdateObject,
     },
@@ -115,17 +108,18 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
         {/* Центральная временная шкала */}
         <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-400 transform -translate-x-0.5 z-10" />
 
-        {/* Временные метки в центре */}
-        <div className="absolute left-1/2 top-0 bottom-0 transform -translate-x-8 z-20">
+        {/* Временные метки */}
+        <div className="absolute left-1/2 top-0 bottom-0 transform -translate-x-16 z-20">
           {getTimeLabels().map((time) => (
             <div
               key={time}
-              className="absolute flex items-center justify-center"
+              className="absolute flex items-center"
               style={{ top: `${timeToY(time)}px` }}
             >
-              <div className="bg-white px-3 py-1 rounded-full shadow-sm border text-sm font-bold text-slate-700 min-w-[60px] text-center">
+              <div className="bg-white px-2 py-1 rounded shadow-sm border text-sm font-medium text-slate-700">
                 {time}:00
               </div>
+              <div className="w-8 h-px bg-slate-400 ml-2" />
             </div>
           ))}
         </div>
@@ -139,16 +133,25 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
           />
         ))}
 
-        {/* Заголовки зон - убираем, так как они теперь в хедере */}
+        {/* Заголовки зон */}
+        <div className="absolute top-4 left-4 z-30">
+          <div className="bg-white rounded-lg shadow-sm border px-4 py-2 flex items-center gap-2">
+            <Icon name="Users" size={20} className="text-blue-600" />
+            <span className="font-medium text-slate-900">Пассажиры</span>
+          </div>
+        </div>
+
+        <div className="absolute top-4 right-4 z-30">
+          <div className="bg-white rounded-lg shadow-sm border px-4 py-2 flex items-center gap-2">
+            <Icon name="Car" size={20} className="text-green-600" />
+            <span className="font-medium text-slate-900">Машины</span>
+          </div>
+        </div>
 
         {/* Разделительная линия и зоны */}
         <div className="absolute inset-0 pointer-events-none">
-          {filters.showPassengers && (
-            <div className="w-1/2 h-full bg-blue-50 opacity-20" />
-          )}
-          {filters.showVehicles && (
-            <div className="absolute right-0 top-0 w-1/2 h-full bg-green-50 opacity-20" />
-          )}
+          <div className="w-1/2 h-full bg-blue-50 opacity-30" />
+          <div className="absolute right-0 top-0 w-1/2 h-full bg-green-50 opacity-30" />
         </div>
 
         {/* Индикатор текущего времени */}
@@ -161,49 +164,42 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
           </div>
         </div>
 
-        {/* Объекты на временной шкале с фильтрацией */}
-        {objects
-          .filter((object) => {
-            if (object.type === "passenger" && !filters.showPassengers)
-              return false;
-            if (object.type === "vehicle" && !filters.showVehicles)
-              return false;
-            return true;
-          })
-          .map((object) => (
-            <div
-              key={object.id}
-              className={`absolute cursor-move rounded-lg shadow-md border-2 transition-all ${
-                selectedObject === object.id
-                  ? "border-purple-400 shadow-lg scale-105"
-                  : "border-white hover:shadow-lg"
-              }`}
-              style={{
-                left: `${object.position.x}px`,
-                top: `${object.position.y}px`,
-                width: "100px",
-                height: `${Math.max(40, object.duration * 20)}px`,
-                backgroundColor: object.color,
-                opacity: draggedObject === object.id ? 0.8 : 1,
-              }}
-              onMouseDown={(e) => handleMouseDown(e, object.id)}
-            >
-              <div className="p-2 text-white">
-                <div className="flex items-center gap-1 mb-1">
-                  <Icon
-                    name={object.type === "passenger" ? "User" : "Car"}
-                    size={12}
-                  />
-                  <span className="text-xs font-medium truncate">
-                    {object.name}
-                  </span>
-                </div>
-                <div className="text-xs opacity-80">
-                  {Math.round(object.startTime)}:00
-                </div>
+        {/* Объекты на временной шкале */}
+        {objects.map((object) => (
+          <div
+            key={object.id}
+            className={`absolute cursor-move rounded-lg shadow-md border-2 transition-all ${
+              selectedObject === object.id
+                ? "border-purple-400 shadow-lg scale-105"
+                : "border-white hover:shadow-lg"
+            }`}
+            style={{
+              left: `${object.position.x}px`,
+              top: `${object.position.y}px`,
+              width: "120px",
+              height: `${Math.max(40, object.duration * 20)}px`,
+              backgroundColor: object.color,
+              opacity: draggedObject === object.id ? 0.8 : 1,
+            }}
+            onMouseDown={(e) => handleMouseDown(e, object.id)}
+          >
+            <div className="p-2 text-white">
+              <div className="flex items-center gap-1 mb-1">
+                <Icon
+                  name={object.type === "passenger" ? "User" : "Car"}
+                  size={14}
+                />
+                <span className="text-xs font-medium truncate">
+                  {object.name}
+                </span>
+              </div>
+              <div className="text-xs opacity-80">
+                {Math.round(object.startTime)}:00 -{" "}
+                {Math.round(object.startTime + object.duration)}:00
               </div>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     );
   },

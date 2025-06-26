@@ -20,11 +20,6 @@ export interface TimeRange {
 
 export type TimelineMode = "schedule" | "data";
 
-export interface TimelineFilters {
-  showPassengers: boolean;
-  showVehicles: boolean;
-}
-
 export interface DroppableZone {
   id: string;
   type: "passenger" | "vehicle";
