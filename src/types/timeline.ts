@@ -1,6 +1,6 @@
 export interface TimelineObject {
   id: string;
-  type: "passenger" | "vehicle";
+  type: "event" | "process";
   name: string;
   startTime: number;
   duration: number;
@@ -19,19 +19,3 @@ export interface TimeRange {
 }
 
 export type TimelineMode = "schedule" | "data";
-
-export interface TimelineFilters {
-  showPassengers: boolean;
-  showVehicles: boolean;
-}
-
-export interface DroppableZone {
-  id: string;
-  type: "passenger" | "vehicle";
-  bounds: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-}

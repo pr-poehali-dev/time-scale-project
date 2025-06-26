@@ -3,87 +3,32 @@ import { TimelineHeader } from "./TimelineHeader";
 import { TimelineControls } from "./TimelineControls";
 import { TimelineCanvas } from "./TimelineCanvas";
 import { ObjectPanel } from "./ObjectPanel";
-import { TimelineObject, TimelineFilters } from "../types/timeline";
+import { TimelineObject } from "../types/timeline";
 
 export interface TimelineAppProps {}
 
 const TimelineApp: React.FC<TimelineAppProps> = () => {
   const [activeMode, setActiveMode] = useState<"schedule" | "data">("schedule");
-  const [objects, setObjects] = useState<TimelineObject[]>([
-    // Примеры пассажиров (левая сторона)
-    {
-      id: "passenger-1",
-      type: "passenger",
-      name: "Анна",
-      startTime: 9,
-      duration: 2,
-      color: "#3B82F6",
-      position: { x: 120, y: 80 },
-    },
-    {
-      id: "passenger-2",
-      type: "passenger",
-      name: "Иван",
-      startTime: 12,
-      duration: 1.5,
-      color: "#1D4ED8",
-      position: { x: 120, y: 240 },
-    },
-    // Примеры машин (правая сторона)
-    {
-      id: "vehicle-1",
-      type: "vehicle",
-      name: "Такси №1",
-      startTime: 10,
-      duration: 3,
-      color: "#10B981",
-      position: { x: window.innerWidth - 180, y: 160 },
-    },
-    {
-      id: "vehicle-2",
-      type: "vehicle",
-      name: "Автобус",
-      startTime: 13,
-      duration: 2,
-      color: "#059669",
-      position: { x: window.innerWidth - 180, y: 300 },
-    },
-    {
-      id: "vehicle-3",
-      type: "vehicle",
-      name: "Такси №2",
-      startTime: 16,
-      duration: 3,
-      color: "#34D399",
-      position: { x: window.innerWidth - 180, y: 480 },
-    },
-  ]);
+  const [objects, setObjects] = useState<TimelineObject[]>([]);
   const [selectedObject, setSelectedObject] = useState<string | null>(null);
-  const [timeRange, setTimeRange] = useState({ start: 8, end: 20 });
+  const [timeRange, setTimeRange] = useState({ start: 0, end: 24 });
   const [zoom, setZoom] = useState(1);
-  const [filters, setFilters] = useState<TimelineFilters>({
-    showPassengers: true,
-    showVehicles: true,
-  });
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleCreateObject = useCallback(
-    (type: "passenger" | "vehicle", name: string) => {
+    (type: "event" | "process", name: string) => {
       const newObject: TimelineObject = {
         id: Date.now().toString(),
         type,
         name,
-        startTime: new Date().getHours(),
-        duration: 2,
-        color: type === "passenger" ? "#3B82F6" : "#10B981",
-        position: {
-          x: type === "passenger" ? 120 : window.innerWidth - 180,
-          y: 100,
-        },
+        startTime: timeRange.start + 2,
+        duration: type === "event" ? 1 : 3,
+        color: type === "event" ? "#9b87f5" : "#0EA5E9",
+        position: { x: 100, y: 60 },
       };
       setObjects((prev) => [...prev, newObject]);
     },
-    [],
+    [timeRange.start],
   );
 
   const handleUpdateObject = useCallback(
@@ -102,32 +47,43 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <TimelineHeader
-        activeMode={activeMode}
-        filters={filters}
-        onModeChange={setActiveMode}
-        onFiltersChange={setFilters}
-      />
+      <div className="max-w-7xl mx-auto p-6">
+        <TimelineHeader activeMode={activeMode} onModeChange={setActiveMode} />
 
-      <TimelineCanvas
-        objects={objects}
-        selectedObject={selectedObject}
-        timeRange={timeRange}
-        zoom={zoom}
-        mode={activeMode}
-        filters={filters}
-        onSelectObject={setSelectedObject}
-        onUpdateObject={handleUpdateObject}
-      />
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-3 space-y-4">
+            <TimelineControls
+              timeRange={timeRange}
+              zoom={zoom}
+              onTimeRangeChange={setTimeRange}
+              onZoomChange={setZoom}
+              mode={activeMode}
+            />
 
-      <ObjectPanel
-        mode={activeMode}
-        selectedObject={selectedObject}
-        objects={objects}
-        onCreateObject={handleCreateObject}
-        onUpdateObject={handleUpdateObject}
-        onDeleteObject={handleDeleteObject}
-      />
+            <TimelineCanvas
+              ref={canvasRef}
+              objects={objects}
+              selectedObject={selectedObject}
+              timeRange={timeRange}
+              zoom={zoom}
+              mode={activeMode}
+              onSelectObject={setSelectedObject}
+              onUpdateObject={handleUpdateObject}
+            />
+          </div>
+
+          <div className="lg:col-span-1">
+            <ObjectPanel
+              mode={activeMode}
+              selectedObject={selectedObject}
+              objects={objects}
+              onCreateObject={handleCreateObject}
+              onUpdateObject={handleUpdateObject}
+              onDeleteObject={handleDeleteObject}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
