@@ -3,7 +3,7 @@ import { TimelineHeader } from "./TimelineHeader";
 import { TimelineControls } from "./TimelineControls";
 import { TimelineCanvas } from "./TimelineCanvas";
 import { ObjectPanel } from "./ObjectPanel";
-import { TimelineObject } from "../types/timeline";
+import { TimelineObject, TimelineFilters } from "../types/timeline";
 
 export interface TimelineAppProps {}
 
@@ -11,24 +11,31 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
   const [activeMode, setActiveMode] = useState<"schedule" | "data">("schedule");
   const [objects, setObjects] = useState<TimelineObject[]>([]);
   const [selectedObject, setSelectedObject] = useState<string | null>(null);
-  const [timeRange, setTimeRange] = useState({ start: 0, end: 24 });
+  const [timeRange, setTimeRange] = useState({ start: 8, end: 20 });
   const [zoom, setZoom] = useState(1);
+  const [filters, setFilters] = useState<TimelineFilters>({
+    showPassengers: true,
+    showVehicles: true,
+  });
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleCreateObject = useCallback(
-    (type: "event" | "process", name: string) => {
+    (type: "passenger" | "vehicle", name: string) => {
       const newObject: TimelineObject = {
         id: Date.now().toString(),
         type,
         name,
-        startTime: timeRange.start + 2,
-        duration: type === "event" ? 1 : 3,
-        color: type === "event" ? "#9b87f5" : "#0EA5E9",
-        position: { x: 100, y: 60 },
+        startTime: new Date().getHours(),
+        duration: 2,
+        color: type === "passenger" ? "#3B82F6" : "#10B981",
+        position: {
+          x: type === "passenger" ? 100 : window.innerWidth / 2 + 100,
+          y: 100,
+        },
       };
       setObjects((prev) => [...prev, newObject]);
     },
-    [timeRange.start],
+    [],
   );
 
   const handleUpdateObject = useCallback(
@@ -47,43 +54,32 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="max-w-7xl mx-auto p-6">
-        <TimelineHeader activeMode={activeMode} onModeChange={setActiveMode} />
+      <TimelineHeader
+        activeMode={activeMode}
+        filters={filters}
+        onModeChange={setActiveMode}
+        onFiltersChange={setFilters}
+      />
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 space-y-4">
-            <TimelineControls
-              timeRange={timeRange}
-              zoom={zoom}
-              onTimeRangeChange={setTimeRange}
-              onZoomChange={setZoom}
-              mode={activeMode}
-            />
+      <TimelineCanvas
+        objects={objects}
+        selectedObject={selectedObject}
+        timeRange={timeRange}
+        zoom={zoom}
+        mode={activeMode}
+        filters={filters}
+        onSelectObject={setSelectedObject}
+        onUpdateObject={handleUpdateObject}
+      />
 
-            <TimelineCanvas
-              ref={canvasRef}
-              objects={objects}
-              selectedObject={selectedObject}
-              timeRange={timeRange}
-              zoom={zoom}
-              mode={activeMode}
-              onSelectObject={setSelectedObject}
-              onUpdateObject={handleUpdateObject}
-            />
-          </div>
-
-          <div className="lg:col-span-1">
-            <ObjectPanel
-              mode={activeMode}
-              selectedObject={selectedObject}
-              objects={objects}
-              onCreateObject={handleCreateObject}
-              onUpdateObject={handleUpdateObject}
-              onDeleteObject={handleDeleteObject}
-            />
-          </div>
-        </div>
-      </div>
+      <ObjectPanel
+        mode={activeMode}
+        selectedObject={selectedObject}
+        objects={objects}
+        onCreateObject={handleCreateObject}
+        onUpdateObject={handleUpdateObject}
+        onDeleteObject={handleDeleteObject}
+      />
     </div>
   );
 };
