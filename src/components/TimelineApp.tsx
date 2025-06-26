@@ -18,25 +18,16 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
       startTime: 9,
       duration: 2,
       color: "#3B82F6",
-      position: { x: 50, y: 60 },
+      position: { x: 120, y: 80 },
     },
     {
       id: "passenger-2",
       type: "passenger",
-      name: "Михаил",
-      startTime: 11,
-      duration: 3,
-      color: "#1E40AF",
-      position: { x: 180, y: 180 },
-    },
-    {
-      id: "passenger-3",
-      type: "passenger",
-      name: "Елена",
-      startTime: 14,
+      name: "Иван",
+      startTime: 12,
       duration: 1.5,
-      color: "#60A5FA",
-      position: { x: 120, y: 360 },
+      color: "#1D4ED8",
+      position: { x: 120, y: 240 },
     },
     // Примеры машин (правая сторона)
     {
@@ -44,9 +35,9 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
       type: "vehicle",
       name: "Такси №1",
       startTime: 10,
-      duration: 4,
+      duration: 3,
       color: "#10B981",
-      position: { x: window.innerWidth / 2 + 80, y: 120 },
+      position: { x: window.innerWidth - 180, y: 160 },
     },
     {
       id: "vehicle-2",
@@ -55,7 +46,7 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
       startTime: 13,
       duration: 2,
       color: "#059669",
-      position: { x: window.innerWidth / 2 + 200, y: 300 },
+      position: { x: window.innerWidth - 180, y: 300 },
     },
     {
       id: "vehicle-3",
@@ -64,7 +55,7 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
       startTime: 16,
       duration: 3,
       color: "#34D399",
-      position: { x: window.innerWidth / 2 + 50, y: 480 },
+      position: { x: window.innerWidth - 180, y: 480 },
     },
   ]);
   const [selectedObject, setSelectedObject] = useState<string | null>(null);
@@ -86,7 +77,7 @@ const TimelineApp: React.FC<TimelineAppProps> = () => {
         duration: 2,
         color: type === "passenger" ? "#3B82F6" : "#10B981",
         position: {
-          x: type === "passenger" ? 100 : window.innerWidth / 2 + 100,
+          x: type === "passenger" ? 120 : window.innerWidth - 180,
           y: 100,
         },
       };

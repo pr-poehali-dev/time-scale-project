@@ -85,8 +85,8 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
         // Определяем зону (пассажиры или машины)
         const isPassengerZone = newX < rect.width / 2;
         const constrainedX = isPassengerZone
-          ? Math.max(20, Math.min(newX, rect.width / 2 - 100))
-          : Math.max(rect.width / 2 + 20, Math.min(newX, rect.width - 100));
+          ? 120 // Фиксированная позиция для пассажиров
+          : rect.width - 180; // Фиксированная позиция для машин
 
         const constrainedY = Math.max(0, Math.min(newY, rect.height - 60));
         const newTime = yToTime(constrainedY);
@@ -117,6 +117,16 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
 
         {/* Временные метки в центре */}
         <div className="absolute left-1/2 top-0 bottom-0 transform -translate-x-8 z-20">
+          {/* Метка СЕЙЧАС на самом верху */}
+          <div
+            className="absolute flex items-center justify-center"
+            style={{ top: "10px" }}
+          >
+            <div className="bg-red-500 text-white px-3 py-1 rounded-full shadow-sm border text-sm font-bold min-w-[80px] text-center">
+              СЕЙЧАС
+            </div>
+          </div>
+
           {getTimeLabels().map((time) => (
             <div
               key={time}
@@ -155,11 +165,7 @@ export const TimelineCanvas = forwardRef<HTMLDivElement, TimelineCanvasProps>(
         <div
           className="absolute left-0 right-0 h-0.5 bg-red-500 z-20 shadow-lg"
           style={{ top: `${timeToY(new Date().getHours())}px` }}
-        >
-          <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-6 bg-red-500 text-white px-2 py-1 rounded text-xs font-medium">
-            СЕЙЧАС
-          </div>
-        </div>
+        />
 
         {/* Объекты на временной шкале с фильтрацией */}
         {objects
