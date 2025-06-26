@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Calculator,
@@ -32,12 +31,48 @@ import {
 } from "@/components/ui/card";
 
 const materials = [
-  { id: "sand", name: "Песок строительный", price: 800, unit: "м³", desc: "Идеален для строительных работ" },
-  { id: "soil", name: "Чернозем плодородный", price: 1200, unit: "м³", desc: "Для садовых и огородных работ" },
-  { id: "peat", name: "Торф натуральный", price: 900, unit: "м³", desc: "Улучшает структуру почвы" },
-  { id: "gravel", name: "Щебень фракция 5-20", price: 1100, unit: "м³", desc: "Для дорожных работ" },
-  { id: "clay", name: "Глина техническая", price: 700, unit: "м³", desc: "Для промышленных нужд" },
-  { id: "concrete", name: "Бетон М200-М400", price: 3500, unit: "м³", desc: "Готовый бетон любых марок" },
+  {
+    id: "sand",
+    name: "Песок строительный",
+    price: 800,
+    unit: "м³",
+    desc: "Идеален для строительных работ",
+  },
+  {
+    id: "soil",
+    name: "Чернозем плодородный",
+    price: 1200,
+    unit: "м³",
+    desc: "Для садовых и огородных работ",
+  },
+  {
+    id: "peat",
+    name: "Торф натуральный",
+    price: 900,
+    unit: "м³",
+    desc: "Улучшает структуру почвы",
+  },
+  {
+    id: "gravel",
+    name: "Щебень фракция 5-20",
+    price: 1100,
+    unit: "м³",
+    desc: "Для дорожных работ",
+  },
+  {
+    id: "clay",
+    name: "Глина техническая",
+    price: 700,
+    unit: "м³",
+    desc: "Для промышленных нужд",
+  },
+  {
+    id: "concrete",
+    name: "Бетон М200-М400",
+    price: 3500,
+    unit: "м³",
+    desc: "Готовый бетон любых марок",
+  },
 ];
 
 const distances = [
@@ -51,30 +86,30 @@ const advantages = [
   {
     icon: Clock,
     title: "Быстрая доставка",
-    desc: "Доставляем в день заказа или к назначенному времени"
+    desc: "Доставляем в день заказа или к назначенному времени",
   },
   {
     icon: Shield,
     title: "Гарантия качества",
-    desc: "Все материалы сертифицированы и соответствуют ГОСТ"
+    desc: "Все материалы сертифицированы и соответствуют ГОСТ",
   },
   {
     icon: Truck,
     title: "Собственный автопарк",
-    desc: "40+ единиц техники различной грузоподъемности"
+    desc: "40+ единиц техники различной грузоподъемности",
   },
   {
     icon: Users,
     title: "Опытная команда",
-    desc: "Более 10 лет на рынке строительных материалов"
-  }
+    desc: "Более 10 лет на рынке строительных материалов",
+  },
 ];
 
 const stats = [
   { number: "5000+", label: "Довольных клиентов" },
   { number: "15000+", label: "Тонн доставлено" },
   { number: "24/7", label: "Работаем круглосуточно" },
-  { number: "100%", label: "Гарантия качества" }
+  { number: "100%", label: "Гарантия качества" },
 ];
 
 export default function App() {
@@ -105,44 +140,63 @@ export default function App() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
-        
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: `radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px)`,
+              backgroundSize: "60px 60px",
+            }}
+          ></div>
+        </div>
+
         <div className="relative py-24 px-4 text-center text-white">
           <div className="max-w-5xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-sm mb-6 backdrop-blur-sm">
               <Award className="w-4 h-4" />
               <span>Лидер в области доставки сыпучих материалов</span>
             </div>
-            
+
             <h1 className="text-6xl font-bold mb-6 leading-tight">
-              Доставка сыпучих<br />
+              Доставка сыпучих
+              <br />
               <span className="text-yellow-400">материалов №1</span>
             </h1>
-            
+
             <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto leading-relaxed">
-              Песок, щебень, чернозем, торф, глина и бетон с доставкой по Москве и области. 
-              Качество ГОСТ, собственный автопарк, работаем 24/7
+              Песок, щебень, чернозем, торф, глина и бетон с доставкой по Москве
+              и области. Качество ГОСТ, собственный автопарк, работаем 24/7
             </p>
-            
+
             <div className="flex flex-wrap justify-center gap-6 mb-12 text-sm">
               {[
                 { icon: Clock, text: "Доставка в день заказа" },
                 { icon: Shield, text: "Гарантия качества ГОСТ" },
-                { icon: Truck, text: "Собственный автопарк 40+ машин" }
+                { icon: Truck, text: "Собственный автопарк 40+ машин" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm">
+                <div
+                  key={index}
+                  className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm"
+                >
                   <item.icon className="w-4 h-4" />
                   <span>{item.text}</span>
                 </div>
               ))}
             </div>
-            
+
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8 py-3 text-lg">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8 py-3 text-lg"
+              >
                 Рассчитать стоимость
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg"
+              >
                 Позвонить сейчас
               </Button>
             </div>
@@ -156,7 +210,9 @@ export default function App() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">{stat.number}</div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">
+                  {stat.number}
+                </div>
                 <div className="text-gray-600 text-sm">{stat.label}</div>
               </div>
             ))}
@@ -172,10 +228,11 @@ export default function App() {
               Наши материалы
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Широкий ассортимент качественных сыпучих материалов для любых строительных задач
+              Широкий ассортимент качественных сыпучих материалов для любых
+              строительных задач
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {materials.map((material) => (
               <Card
@@ -243,7 +300,8 @@ export default function App() {
                           <div className="flex justify-between w-full">
                             <span>{material.name}</span>
                             <span className="text-blue-600 font-semibold ml-4">
-                              {material.price.toLocaleString()} ₽/{material.unit}
+                              {material.price.toLocaleString()} ₽/
+                              {material.unit}
                             </span>
                           </div>
                         </SelectItem>
@@ -305,16 +363,22 @@ export default function App() {
                     <div className="text-3xl font-bold text-green-700 mb-2">
                       {totalCost.toLocaleString()} ₽
                     </div>
-                    <p className="text-green-600 mb-4">Общая стоимость с доставкой</p>
-                    
+                    <p className="text-green-600 mb-4">
+                      Общая стоимость с доставкой
+                    </p>
+
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div className="bg-white/50 p-3 rounded-lg">
                         <div className="text-gray-600">Материалы:</div>
-                        <div className="font-semibold">{materialCost.toLocaleString()} ₽</div>
+                        <div className="font-semibold">
+                          {materialCost.toLocaleString()} ₽
+                        </div>
                       </div>
                       <div className="bg-white/50 p-3 rounded-lg">
                         <div className="text-gray-600">Доставка:</div>
-                        <div className="font-semibold">{deliveryCost.toLocaleString()} ₽</div>
+                        <div className="font-semibold">
+                          {deliveryCost.toLocaleString()} ₽
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -333,10 +397,11 @@ export default function App() {
               Почему выбирают нас?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Мы предоставляем комплексные решения для доставки сыпучих материалов
+              Мы предоставляем комплексные решения для доставки сыпучих
+              материалов
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {advantages.map((advantage, index) => (
               <div key={index} className="text-center group">
@@ -359,41 +424,65 @@ export default function App() {
       <section className="py-20 px-4 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Свяжитесь с нами
-            </h2>
+            <h2 className="text-4xl font-bold mb-4">Свяжитесь с нами</h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Готовы обсудить ваш заказ? Мы работаем 24/7 и всегда готовы помочь
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {[
-              { icon: Phone, title: "Телефон", value: "+7 (495) 123-45-67", desc: "Звоните круглосуточно" },
-              { icon: Mail, title: "Email", value: "info@materials-msk.ru", desc: "Ответим в течение часа" },
-              { icon: MapPin, title: "Адрес", value: "г. Москва, ул. Стройматериалов, 25", desc: "Офис и склад" }
+              {
+                icon: Phone,
+                title: "Телефон",
+                value: "+7 (495) 123-45-67",
+                desc: "Звоните круглосуточно",
+              },
+              {
+                icon: Mail,
+                title: "Email",
+                value: "info@materials-msk.ru",
+                desc: "Ответим в течение часа",
+              },
+              {
+                icon: MapPin,
+                title: "Адрес",
+                value: "г. Москва, ул. Стройматериалов, 25",
+                desc: "Офис и склад",
+              },
             ].map((contact, index) => (
-              <div key={index} className="text-center p-6 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors">
+              <div
+                key={index}
+                className="text-center p-6 bg-gray-800 rounded-xl hover:bg-gray-700 transition-colors"
+              >
                 <contact.icon className="w-8 h-8 mx-auto mb-4 text-yellow-400" />
                 <h3 className="text-xl font-semibold mb-2">{contact.title}</h3>
-                <p className="text-yellow-400 font-semibold mb-2">{contact.value}</p>
+                <p className="text-yellow-400 font-semibold mb-2">
+                  {contact.value}
+                </p>
                 <p className="text-gray-400 text-sm">{contact.desc}</p>
               </div>
             ))}
           </div>
 
           <div className="text-center bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-2xl">
-            <h3 className="text-2xl font-bold mb-4">
-              Готовы сделать заказ?
-            </h3>
+            <h3 className="text-2xl font-bold mb-4">Готовы сделать заказ?</h3>
             <p className="text-blue-100 mb-6 text-lg">
-              Оставьте заявку, и мы перезвоним в течение 5 минут для уточнения деталей
+              Оставьте заявку, и мы перезвоним в течение 5 минут для уточнения
+              деталей
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8">
+              <Button
+                size="lg"
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8"
+              >
                 Оставить заявку
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-black px-8"
+              >
                 Позвонить сейчас
               </Button>
             </div>
@@ -406,19 +495,26 @@ export default function App() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold mb-4 text-yellow-400">СтройМатериалы</h3>
+              <h3 className="text-2xl font-bold mb-4 text-yellow-400">
+                СтройМатериалы
+              </h3>
               <p className="text-gray-400 mb-4 leading-relaxed">
-                Лидер в области доставки сыпучих материалов в Москве и области. 
+                Лидер в области доставки сыпучих материалов в Москве и области.
                 Работаем с 2013 года, доставили более 15 000 тонн материалов.
               </p>
               <div className="flex gap-4">
-                {[1,2,3,4,5].map((i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <Star
+                    key={i}
+                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                  />
                 ))}
-                <span className="text-sm text-gray-400 ml-2">4.9/5 на Яндекс.Картах</span>
+                <span className="text-sm text-gray-400 ml-2">
+                  4.9/5 на Яндекс.Картах
+                </span>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Материалы</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
@@ -429,7 +525,7 @@ export default function App() {
                 <li>Бетон готовый</li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-semibold mb-4">Услуги</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
@@ -441,10 +537,12 @@ export default function App() {
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>&copy; 2024 СтройМатериалы. Все права защищены.</p>
-            <p className="text-sm mt-2">ИНН: 7777777777 | ОГРН: 1234567890123</p>
+            <p className="text-sm mt-2">
+              ИНН: 7777777777 | ОГРН: 1234567890123
+            </p>
           </div>
         </div>
       </footer>
